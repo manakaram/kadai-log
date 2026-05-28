@@ -5,92 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="課題ログ">
-  <meta name="theme-color" content="#080810">
-  <title>課題ログ</title>
+  <meta name="apple-mobile-web-app-title" content="まなかち課題チェッカー">
+  <meta name="theme-color" content="#f8f0ff">
+  <title>まなかち課題チェッカー</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #080810;
-      --surface: #0f0f1a;
-      --border: #1e1e32;
-      --accent: #4f6ef7;
-      --accent-dim: #1a1e3a;
-      --text: #e2e2f0;
-      --muted: #44445a;
-      --danger: #f74f4f;
-      --warn: #f79a4f;
-      --ok: #4ff79a;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Noto Sans JP', sans-serif;
       min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(160deg, #fce4ff 0%, #e8d5ff 40%, #d5caff 100%);
+      color: #3a2550;
     }
 
-    /* ── Header ── */
     header {
-      padding: calc(var(--safe-top) + 20px) 20px 16px;
-      background: var(--bg);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
+      padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px 20px;
+      text-align: center;
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 900;
-      letter-spacing: -0.5px;
-      color: var(--text);
+      background: linear-gradient(135deg, #c026d3, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.5px;
     }
 
-    .badge {
-      background: var(--danger);
-      color: #fff;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 2px;
-      letter-spacing: 1px;
-      animation: blink 1.8s ease-in-out infinite;
+    .sub {
+      font-size: 11px;
+      color: #a78bbb;
+      margin-top: 4px;
     }
 
-    .header-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 2px;
-    }
-
-    /* ── Main ── */
     main {
-      flex: 1;
-      padding: 20px 20px calc(var(--safe-bottom) + 100px);
-      max-width: 520px;
-      width: 100%;
+      padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 40px);
+      max-width: 480px;
       margin: 0 auto;
     }
 
@@ -98,116 +51,100 @@
     .add-btn {
       width: 100%;
       padding: 18px;
-      background: var(--accent);
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
       color: #fff;
       border: none;
-      border-radius: 6px;
-      font-family: 'Noto Sans JP', sans-serif;
+      border-radius: 18px;
+      font-family: inherit;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      letter-spacing: 1px;
-      transition: transform 0.1s, background 0.2s;
+      box-shadow: 0 6px 24px rgba(139,92,246,0.35);
+      transition: transform 0.12s, box-shadow 0.12s;
       margin-bottom: 16px;
-      -webkit-user-select: none;
-      user-select: none;
     }
-
-    .add-btn:active { transform: scale(0.97); }
+    .add-btn:active { transform: scale(0.97); box-shadow: none; }
     .add-btn.open {
-      background: var(--surface);
-      color: var(--muted);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.6);
+      color: #a78bbb;
+      box-shadow: none;
     }
 
     /* ── Form ── */
     .form-panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
       padding: 16px;
       margin-bottom: 16px;
-      animation: slideDown 0.2s ease-out;
+      animation: popIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
     }
 
     .form-panel input {
       width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      color: var(--text);
+      background: rgba(255,255,255,0.8);
+      border: 1.5px solid #e0c8ff;
+      border-radius: 12px;
+      color: #3a2550;
       padding: 12px 14px;
       font-size: 15px;
       font-family: inherit;
       outline: none;
       margin-bottom: 10px;
-      transition: border-color 0.2s;
     }
-
-    .form-panel input:focus { border-color: var(--accent); }
-    .form-panel input::placeholder { color: var(--muted); }
-
-    .form-hint {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      margin-top: 8px;
-    }
+    .form-panel input:focus { border-color: #a855f7; }
+    .form-panel input::placeholder { color: #c4a8d8; }
 
     .submit-btn {
       width: 100%;
-      padding: 12px;
-      background: var(--accent);
+      padding: 13px;
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
       color: #fff;
       border: none;
-      border-radius: 4px;
+      border-radius: 12px;
       font-family: inherit;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       transition: opacity 0.2s;
     }
+    .submit-btn:disabled { opacity: 0.3; }
 
-    .submit-btn:disabled { opacity: 0.3; cursor: default; }
+    .form-hint { font-size: 11px; color: #b89ecc; text-align: center; margin-top: 8px; }
 
     /* ── Toast ── */
     .toast {
-      background: #0a2218;
-      border: 1px solid var(--ok);
-      color: var(--ok);
-      padding: 12px 16px;
+      background: rgba(255,255,255,0.75);
+      color: #7c3aed;
+      font-weight: 700;
       font-size: 13px;
-      border-radius: 4px;
-      margin-bottom: 16px;
-      letter-spacing: 1px;
-      animation: fadeIn 0.3s ease;
+      padding: 12px;
+      border-radius: 14px;
+      text-align: center;
+      margin-bottom: 14px;
+      animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
     }
 
-    /* ── Notification Banner ── */
+    /* ── Notif Banner ── */
     .notif-banner {
-      background: var(--accent-dim);
-      border: 1px solid var(--accent);
-      border-radius: 6px;
+      background: rgba(255,255,255,0.65);
+      border-radius: 16px;
       padding: 14px 16px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      animation: fadeIn 0.4s ease;
     }
-
-    .notif-banner p { font-size: 13px; color: var(--text); line-height: 1.5; }
-    .notif-banner strong { color: var(--accent); font-size: 12px; display: block; margin-bottom: 2px; }
-
+    .notif-banner p { font-size: 12px; color: #5a3a70; line-height: 1.5; }
+    .notif-banner strong { color: #9333ea; display: block; }
     .notif-btn {
       white-space: nowrap;
       padding: 8px 14px;
-      background: var(--accent);
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
       color: #fff;
       border: none;
-      border-radius: 4px;
+      border-radius: 10px;
       font-family: inherit;
       font-size: 12px;
       font-weight: 700;
@@ -217,454 +154,283 @@
     /* ── Filters ── */
     .filters {
       display: flex;
-      gap: 4px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 16px;
     }
-
     .filter-btn {
       flex: 1;
       padding: 8px;
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid transparent;
-      border-radius: 4px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 1px;
+      background: rgba(255,255,255,0.5);
+      color: #b89ecc;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.15s;
     }
-
     .filter-btn.active {
-      background: var(--surface);
-      color: var(--text);
-      border-color: var(--border);
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
+      color: #fff;
     }
 
-    /* ── Task Item ── */
+    /* ── Task Card ── */
     .task-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      animation: fadeIn 0.25s ease;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 14px 14px;
+      margin-bottom: 10px;
+      animation: popIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
       transition: opacity 0.2s;
     }
-
-    .task-item.done { opacity: 0.35; }
+    .task-item.done { opacity: 0.4; }
 
     .check-btn {
-      width: 22px;
-      height: 22px;
-      min-width: 22px;
-      background: transparent;
-      border: 2px solid var(--border);
-      border-radius: 3px;
+      width: 26px; height: 26px; min-width: 26px;
+      background: rgba(255,255,255,0.8);
+      border: 2px solid #d8b4fe;
+      border-radius: 50%;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1px;
-      transition: all 0.15s;
-      color: #fff;
+      display: flex; align-items: center; justify-content: center;
       font-size: 13px;
+      transition: all 0.15s;
     }
-
     .task-item.done .check-btn {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
+      border-color: transparent;
+      color: #fff;
     }
 
     .task-body { flex: 1; min-width: 0; }
 
     .task-text {
       font-size: 15px;
-      line-height: 1.5;
-      color: var(--text);
+      font-weight: 700;
+      color: #3a2550;
       word-break: break-all;
+      line-height: 1.4;
     }
+    .task-item.done .task-text { text-decoration: line-through; color: #b89ecc; }
 
-    .task-item.done .task-text { text-decoration: line-through; }
-
-    .task-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 5px;
-    }
+    .task-meta { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
 
     .days-badge {
-      font-family: 'DM Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 8px;
     }
 
-    .due-date {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-    }
+    .due-date { font-size: 10px; color: #c4a8d8; }
 
     .del-btn {
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      padding: 2px 4px;
+      background: transparent; border: none;
+      color: #d8b4fe; font-size: 20px;
+      cursor: pointer; padding: 0 4px;
       transition: color 0.15s;
-      border-radius: 3px;
     }
-
-    .del-btn:hover, .del-btn:active { color: var(--danger); }
+    .del-btn:active { color: #d946ef; }
 
     /* ── Empty ── */
     .empty {
       text-align: center;
       padding: 60px 0;
-      color: var(--border);
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 2px;
+      color: #c4a8d8;
+      font-size: 14px;
+      line-height: 2;
     }
+    .empty-emoji { font-size: 44px; display: block; margin-bottom: 8px; }
 
-    /* ── FAB Install ── */
-    .install-hint {
-      position: fixed;
-      bottom: calc(var(--safe-bottom) + 16px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--muted);
+    /* ── Urgent badge ── */
+    .urgent-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #f0abfc, #c084fc);
+      color: #fff;
       font-size: 11px;
-      padding: 10px 18px;
+      font-weight: 700;
+      padding: 3px 10px;
       border-radius: 20px;
-      white-space: nowrap;
-      cursor: pointer;
-      letter-spacing: 1px;
-      z-index: 50;
-      font-family: 'DM Mono', monospace;
+      margin-left: 8px;
+      animation: blink 1.8s ease-in-out infinite;
+      vertical-align: middle;
     }
 
-    /* ── Animations ── */
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.94) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
     @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      0%,100% { opacity: 1; } 50% { opacity: 0.55; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <h1>📋 課題ログ</h1>
-    <span class="badge" id="urgentBadge" style="display:none"></span>
-  </div>
-  <div class="header-sub" id="headerSub">TASK · DEADLINE · NOTIFY</div>
+  <h1>まなかち課題チェッカー<span id="urgentBadge" class="urgent-badge" style="display:none"></span></h1>
+  <div class="sub" id="headerSub">今日もがんばろう！</div>
 </header>
 
 <main>
-  <!-- Notification permission banner -->
   <div class="notif-banner" id="notifBanner" style="display:none">
-    <p><strong>🔔 通知を有効にする</strong>期限前日にリマインドします</p>
+    <p><strong>🔔 通知を許可する</strong>期限前日にお知らせします</p>
     <button class="notif-btn" onclick="requestNotif()">許可する</button>
   </div>
 
-  <!-- Add button -->
   <button class="add-btn" id="addBtn" onclick="toggleForm()">＋ 課題を記録する</button>
 
-  <!-- Form -->
   <div class="form-panel" id="formPanel" style="display:none">
-    <input type="text" id="taskInput" placeholder="課題の内容を入力..." maxlength="100"
+    <input type="text" id="taskInput" placeholder="課題の内容を入力…" maxlength="100"
       oninput="updateSubmit()" onkeydown="if(event.key==='Enter')submitTask()">
     <button class="submit-btn" id="submitBtn" onclick="submitTask()" disabled>記録する</button>
     <p class="form-hint" id="dueHint"></p>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast" style="display:none">✓ 記録しました</div>
+  <div class="toast" id="toast" style="display:none">✨ 記録できたよ！</div>
 
-  <!-- Filters -->
   <div class="filters" id="filters" style="display:none">
-    <button class="filter-btn active" onclick="setFilter('all', this)">全て</button>
-    <button class="filter-btn" onclick="setFilter('active', this)">未完了</button>
-    <button class="filter-btn" onclick="setFilter('done', this)">完了</button>
+    <button class="filter-btn active" onclick="setFilter('all',this)">全て</button>
+    <button class="filter-btn" onclick="setFilter('active',this)">未完了</button>
+    <button class="filter-btn" onclick="setFilter('done',this)">完了</button>
   </div>
 
-  <!-- Task List -->
   <div id="taskList"></div>
-  <div class="empty" id="emptyMsg">課題なし</div>
+  <div class="empty" id="emptyMsg">
+    <span class="empty-emoji">🌸</span>
+    課題なし！えらい！
+  </div>
 </main>
 
-<button class="install-hint" id="installBtn" style="display:none" onclick="installApp()">
-  ＋ ホーム画面に追加
-</button>
-
 <script>
-  const STORAGE_KEY = 'kadai_tasks_v1';
-  let tasks = [];
-  let filter = 'all';
-  let formOpen = false;
-  let deferredPrompt = null;
-  let toastTimer = null;
+  const KEY = 'kadai_tasks_v1';
+  let tasks = [], filter = 'all', formOpen = false, toastTimer = null, deferredPrompt = null;
 
-  // ── Init ──
   function init() {
-    try { tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { tasks = []; }
-    updateDueHint();
-    render();
-    checkNotifPermission();
-    scheduleDailyCheck();
-
-    // Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(reg => {
-        console.log('SW registered');
-      }).catch(() => {});
-    }
+    try { tasks = JSON.parse(localStorage.getItem(KEY)) || []; } catch { tasks = []; }
+    updateDueHint(); render(); checkNotifPermission();
+    setTimeout(checkUrgentAndNotify, 2000);
+    setInterval(checkUrgentAndNotify, 3600000);
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
   }
 
-  // ── Storage ──
-  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+  function save() { localStorage.setItem(KEY, JSON.stringify(tasks)); }
 
-  // ── Next Week ──
   function getNextWeek() {
-    const d = new Date();
-    d.setDate(d.getDate() + 7);
+    const d = new Date(); d.setDate(d.getDate()+7);
     return d.toISOString().split('T')[0];
   }
 
   function updateDueHint() {
-    document.getElementById('dueHint').textContent = `期限: 来週 ${getNextWeek()} に自動設定`;
+    document.getElementById('dueHint').textContent = `📅 期限: 来週 ${getNextWeek()} に自動設定`;
   }
 
-  // ── Days Left ──
-  function getDaysLeft(dueDate) {
+  function getDaysLeft(due) {
     const now = new Date(); now.setHours(0,0,0,0);
-    const due = new Date(dueDate);
-    return Math.ceil((due - now) / 864e5);
+    return Math.ceil((new Date(due) - now) / 864e5);
   }
 
-  function getDayColor(days, done) {
-    if (done) return 'var(--muted)';
-    if (days < 0) return 'var(--danger)';
-    if (days <= 1) return 'var(--danger)';
-    if (days <= 3) return 'var(--warn)';
-    return 'var(--ok)';
-  }
-
-  function getDayLabel(days, done) {
-    if (done) return '完了';
-    if (days < 0) return '期限切れ';
-    if (days === 0) return '今日まで！';
-    if (days === 1) return '明日まで！';
-    return `残り ${days} 日`;
-  }
-
-  // ── Form ──
   function toggleForm() {
     formOpen = !formOpen;
-    const btn = document.getElementById('addBtn');
-    const panel = document.getElementById('formPanel');
-    btn.textContent = formOpen ? '✕  キャンセル' : '＋ 課題を記録する';
-    btn.className = 'add-btn' + (formOpen ? ' open' : '');
-    panel.style.display = formOpen ? 'block' : 'none';
-    if (formOpen) {
-      document.getElementById('taskInput').focus();
-      updateDueHint();
-    }
+    document.getElementById('addBtn').textContent = formOpen ? '✕ とじる' : '＋ 課題を記録する';
+    document.getElementById('addBtn').className = 'add-btn' + (formOpen ? ' open' : '');
+    document.getElementById('formPanel').style.display = formOpen ? 'block' : 'none';
+    if (formOpen) { document.getElementById('taskInput').focus(); updateDueHint(); }
   }
 
   function updateSubmit() {
-    document.getElementById('submitBtn').disabled =
-      !document.getElementById('taskInput').value.trim();
+    document.getElementById('submitBtn').disabled = !document.getElementById('taskInput').value.trim();
   }
 
   function submitTask() {
     const text = document.getElementById('taskInput').value.trim();
     if (!text) return;
-    tasks.unshift({
-      id: Date.now(),
-      text,
-      createdAt: new Date().toISOString(),
-      dueDate: getNextWeek(),
-      done: false
-    });
-    save();
-    document.getElementById('taskInput').value = '';
-    toggleForm();
-    showToast();
-    render();
-    sendToSW();
+    tasks.unshift({ id: Date.now(), text, createdAt: new Date().toISOString(), dueDate: getNextWeek(), done: false });
+    save(); document.getElementById('taskInput').value = '';
+    toggleForm(); showToast(); render();
   }
 
   function showToast() {
     const t = document.getElementById('toast');
     t.style.display = 'block';
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.style.display = 'none', 2200);
+    toastTimer = setTimeout(() => t.style.display = 'none', 2000);
   }
 
-  // ── Actions ──
   function toggleDone(id) {
-    tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
-    save(); render(); sendToSW();
+    tasks = tasks.map(t => t.id===id ? {...t, done:!t.done} : t);
+    save(); render();
   }
 
   function deleteTask(id) {
-    tasks = tasks.filter(t => t.id !== id);
-    save(); render(); sendToSW();
+    tasks = tasks.filter(t => t.id!==id);
+    save(); render();
   }
 
   function setFilter(f, el) {
     filter = f;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    render();
+    el.classList.add('active'); render();
   }
 
-  // ── Render ──
   function render() {
     const active = tasks.filter(t => !t.done);
     const urgent = active.filter(t => getDaysLeft(t.dueDate) <= 1);
-
-    // Badge
     const badge = document.getElementById('urgentBadge');
-    if (urgent.length > 0) {
-      badge.textContent = `${urgent.length}件 急ぎ`;
-      badge.style.display = 'inline';
-    } else {
-      badge.style.display = 'none';
-    }
+    badge.style.display = urgent.length > 0 ? 'inline-block' : 'none';
+    if (urgent.length > 0) badge.textContent = `🔥 ${urgent.length}件急ぎ`;
 
-    // Sub header
     document.getElementById('headerSub').textContent =
-      tasks.length === 0 ? 'TASK · DEADLINE · NOTIFY' :
-      `全 ${tasks.length}件 · 未完了 ${active.length}件`;
+      tasks.length === 0 ? '今日もがんばろう！' : `全${tasks.length}件 · 未完了${active.length}件`;
 
-    // Filters
     document.getElementById('filters').style.display = tasks.length > 0 ? 'flex' : 'none';
 
-    // Filter tasks
-    const shown = tasks.filter(t => {
-      if (filter === 'active') return !t.done;
-      if (filter === 'done') return t.done;
-      return true;
-    });
-
+    const shown = tasks.filter(t =>
+      filter==='active' ? !t.done : filter==='done' ? t.done : true
+    );
     document.getElementById('emptyMsg').style.display = shown.length === 0 ? 'block' : 'none';
 
-    const list = document.getElementById('taskList');
-    list.innerHTML = shown.map(t => {
+    document.getElementById('taskList').innerHTML = shown.map(t => {
       const days = getDaysLeft(t.dueDate);
-      const color = getDayColor(days, t.done);
-      const label = getDayLabel(days, t.done);
-      return `
-        <div class="task-item ${t.done ? 'done' : ''}">
-          <button class="check-btn" onclick="toggleDone(${t.id})">
-            ${t.done ? '✓' : ''}
-          </button>
-          <div class="task-body">
-            <div class="task-text">${escHtml(t.text)}</div>
-            <div class="task-meta">
-              <span class="days-badge" style="color:${color}">${label}</span>
-              <span class="due-date">${t.dueDate}</span>
-            </div>
+      const color = t.done ? '#c4a8d8' : days<0||days<=1 ? '#e879f9' : days<=3 ? '#f59e0b' : '#34d399';
+      const label = t.done ? '✅ 完了' : days<0 ? '⚠️ 期限切れ' : days===0 ? '🔥 今日まで！' : days===1 ? '😱 明日まで！' : `⏰ 残り${days}日`;
+      return `<div class="task-item ${t.done?'done':''}">
+        <button class="check-btn" onclick="toggleDone(${t.id})">${t.done?'✓':''}</button>
+        <div class="task-body">
+          <div class="task-text">${esc(t.text)}</div>
+          <div class="task-meta">
+            <span class="days-badge" style="color:${color};background:${color}22">${label}</span>
+            <span class="due-date">${t.dueDate}</span>
           </div>
-          <button class="del-btn" onclick="deleteTask(${t.id})">×</button>
-        </div>`;
+        </div>
+        <button class="del-btn" onclick="deleteTask(${t.id})">×</button>
+      </div>`;
     }).join('');
   }
 
-  function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  // ── Notifications ──
   function checkNotifPermission() {
-    if (!('Notification' in window)) return;
-    if (Notification.permission === 'default') {
-      document.getElementById('notifBanner').style.display = 'flex';
-    }
+    if ('Notification' in window && Notification.permission==='default')
+      document.getElementById('notifBanner').style.display='flex';
   }
 
   async function requestNotif() {
-    const perm = await Notification.requestPermission();
-    document.getElementById('notifBanner').style.display = 'none';
-    if (perm === 'granted') {
-      new Notification('✓ 通知が有効になりました', {
-        body: '期限前日にリマインドします',
-        tag: 'kadai-setup'
-      });
-      scheduleDailyCheck();
-    }
-  }
-
-  // Daily check via setInterval (runs while app is open)
-  function scheduleDailyCheck() {
-    // Check on load
-    setTimeout(checkUrgentAndNotify, 2000);
-    // Check every hour
-    setInterval(checkUrgentAndNotify, 60 * 60 * 1000);
+    const p = await Notification.requestPermission();
+    document.getElementById('notifBanner').style.display='none';
+    if (p==='granted') new Notification('🌸 通知ON！',{body:'期限前日にお知らせするよ！',tag:'setup'});
   }
 
   function checkUrgentAndNotify() {
-    if (Notification.permission !== 'granted') return;
-    const now = new Date();
-    const urgent = tasks.filter(t => {
-      if (t.done) return false;
-      const days = getDaysLeft(t.dueDate);
-      return days === 1; // Tomorrow
-    });
-
-    if (urgent.length > 0) {
-      new Notification(`📚 明日が期限の課題が ${urgent.length}件あります`, {
-        body: urgent.map(t => `・${t.text}`).join('\n'),
-        tag: 'kadai-reminder',
-        renotify: true
-      });
-    }
+    if (Notification.permission!=='granted') return;
+    const u = tasks.filter(t => !t.done && getDaysLeft(t.dueDate)===1);
+    if (u.length>0) new Notification(`📚 明日が期限の課題が${u.length}件あるよ！`,
+      {body:u.map(t=>`・${t.text}`).join('\n'),tag:'reminder',renotify:true});
   }
-
-  function sendToSW() {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'SCHEDULE_CHECK', tasks
-      });
-    }
-  }
-
-  // ── PWA Install ──
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('installBtn').style.display = 'block';
-  });
-
-  async function installApp() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      document.getElementById('installBtn').style.display = 'none';
-    }
-    deferredPrompt = null;
-  }
-
-  window.addEventListener('appinstalled', () => {
-    document.getElementById('installBtn').style.display = 'none';
-  });
 
   init();
 </script>
