@@ -2,7 +2,7 @@
   "name": "課題ログ",
   "short_name": "課題ログ",
   "description": "ワンボタンで課題を記録・管理するアプリ",
-  "start_url": "/index.html",
+  "start_url": "/kadai-log",
   "display": "standalone",
   "background_color": "#080810",
   "theme_color": "#080810",
